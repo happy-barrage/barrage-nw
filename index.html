@@ -1,0 +1,90 @@
+<html>
+
+<body>
+
+<script>
+
+    var gui = require('nw.gui');
+    var os = require('os');
+
+    global.gui = gui;
+    global.os = os;
+
+
+    //参考nw的test demo 这个数字可能这样是最好？
+    var iconWidth = 13;
+
+    /**
+     * tray是不是在顶部的
+     * @param pos
+     * @returns {boolean}
+     */
+    var isTopTray = function (pos) {
+        var screen;
+        if (gui.Screen.Init) {
+            gui.Screen.Init();
+        }
+        function posInBounds(s) {
+            return pos.y > s.bounds.y && pos.y < (s.bounds.y + s.bounds.height) &&
+                    pos.x > s.bounds.x && pos.x < (s.bounds.x + s.bounds.width);
+        }
+
+        screen = gui.Screen.screens.filter(posInBounds)[0];
+        return pos.y < (screen.bounds.y + screen.bounds.height) / 2;
+    }
+
+    /**
+     * 获得menu的具体的pos
+     * @param menu gui.Window
+     * @param pos from click event params
+     * @returns {*}
+     */
+    var translate = function (menu, pos) {
+
+        if (os.platform() === 'darwin') {
+            pos.x -= Math.floor(menu.width / 2 - iconWidth);
+        } else {
+            pos.x -= Math.floor(menu.width / 2);
+            pos.y -= isTopTray(pos) ? 0 : menu.height;
+        }
+
+        return pos;
+    }
+
+    /* ################分割线 上面只是一些方法定义等等########################### */
+
+    var win = gui.Window.get();
+
+
+    var tray;
+
+    tray = new gui.Tray({
+        icon: 'images/icon.png'
+    });
+
+    var trayMenu = gui.Window.open('menu.html', {
+        width: 400,
+        height: 400,
+        frame: false,
+        toolbar: false,
+        show: false,
+        'visible-on-all-workspaces': true,
+//        'always-on-top' : true
+    });
+
+    var showTrayMenu = function (pos) {
+        pos = translate(trayMenu, pos);
+        trayMenu.moveTo(pos.x, pos.y);
+        trayMenu.show();
+
+        setTimeout(function() {
+            trayMenu.focus();
+        }, 300);
+
+    };
+
+    tray.on('click', showTrayMenu);
+</script>
+
+</body>
+</html>

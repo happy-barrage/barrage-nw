@@ -1,0 +1,69 @@
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="semantic/semantic.min.css">
+</head>
+
+<body>
+
+
+<div id="menu"></div>
+
+
+<script src="node_modules/nw-dev/lib/dev.js"></script>
+
+
+<script>
+
+
+    var gui = require('nw.gui');
+    var os = require('os');
+    var PACKAGE_JSON = require('./package.json');
+
+
+
+    global.gui = gui;
+    global.os = os;
+
+    global.self = global;
+
+    global.document = window.document;
+    global.PACKAGE_JSON = PACKAGE_JSON;
+
+    global.XMLHttpRequest = window.XMLHttpRequest;
+
+    global.WindowDanmuku = null;
+
+
+    //用于使用screen的值
+    if (gui.Screen.Init) {
+        gui.Screen.Init();
+    }
+
+
+    //这部分是关于那个menu window的一些设定
+    var win = gui.Window.get();
+
+
+    if (os.platform() === 'darwin') {
+        //修复复制黏贴啊什么的基本设定
+        var nativeMenuBar = new gui.Menu({ type: 'menubar' });
+        nativeMenuBar.createMacBuiltin(PACKAGE_JSON.name);
+        win.menu = nativeMenuBar;
+
+
+    }
+
+    //如果失焦那么就隐藏掉window
+    win.on('blur', function() {
+        win.hide();
+    });
+
+
+    require('./dist/menu');
+
+</script>
+</body>
+
+</html>
