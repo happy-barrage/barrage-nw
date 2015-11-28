@@ -20,6 +20,7 @@ let optionsDefault = {
   toolbar: false,
   //kiosk: true,
   'visible-on-all-workspaces': true,
+  "show_in_taskbar": false,
   //fullscreen: false,
   width: gui.Screen.screens[0].work_area.width, //最大工作区间的屏幕，第一个屏幕
   height: gui.Screen.screens[0].work_area.height
