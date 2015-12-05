@@ -1,6 +1,10 @@
 <html>
+<head>
+    <meta charset="utf-8"/>
+</head>
 
 <body>
+
 
 <script>
 
@@ -20,18 +24,21 @@
      * @returns {boolean}
      */
     var isTopTray = function (pos) {
-        var screen;
+        var screenGui;
+
         if (gui.Screen.Init) {
             gui.Screen.Init();
         }
+
         function posInBounds(s) {
             return pos.y > s.bounds.y && pos.y < (s.bounds.y + s.bounds.height) &&
                     pos.x > s.bounds.x && pos.x < (s.bounds.x + s.bounds.width);
         }
 
-        screen = gui.Screen.screens.filter(posInBounds)[0];
-        return pos.y < (screen.bounds.y + screen.bounds.height) / 2;
-    }
+        //获取第一个屏幕
+        screenGui = gui.Screen.screens.filter(posInBounds)[0];
+        return pos.y < (screenGui.bounds.y + screenGui.bounds.height) / 2;
+    };
 
     /**
      * 获得menu的具体的pos
@@ -45,22 +52,36 @@
             pos.x -= Math.floor(menu.width / 2 - iconWidth);
         } else {
             pos.x -= Math.floor(menu.width / 2);
-            pos.y -= isTopTray(pos) ? 0 : menu.height;
+//            pos.y -= isTopTray(pos) ? 0 : menu.height + 40;
+            pos.y = isTopTray(pos) ? pos.y :screen.availHeight - menu.height; //在windows下这个貌似可以的
         }
 
         return pos;
-    }
+    };
 
     /* ################分割线 上面只是一些方法定义等等########################### */
 
     var win = gui.Window.get();
 
 
-    var tray;
+    var tray, winMenu;
 
     tray = new gui.Tray({
         icon: 'images/icon.png'
     });
+
+    if (os.platform() !== 'darwin') {
+        //windows 和linux 下面的menu
+        winMenu = new gui.Menu();
+        winMenu.append(new gui.MenuItem({
+            label: '退出', //这里的中文显示问题，可以通过meta解决
+            click: function() {
+                gui.App.closeAllWindows();
+                gui.App.quit();
+            }
+        }));
+        tray.menu = winMenu;
+    }
 
     var trayMenu = gui.Window.open('menu.html', {
         width: 400,
@@ -69,8 +90,8 @@
         toolbar: false,
         show: false,
         'visible-on-all-workspaces': true,
-        "show_in_taskbar": false
-//        'always-on-top' : true
+        'show_in_taskbar': false,
+        'always-on-top' : true //这里如果不设定的话，貌似在win下不能覆盖task_bar
     });
 
     var showTrayMenu = function (pos) {

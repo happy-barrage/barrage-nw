@@ -108,9 +108,7 @@ class Menu extends Component {
 
       //提交之后working 为true
       //cancel之后working 为false
-
-      console.log(this.state.key);
-
+      
       Child = <MenuWorking handleCancel={this.handleCancel.bind(this)} channel={this.state.channel} themes={this.state.themes}/>;
     }
 
@@ -135,9 +133,9 @@ class Menu extends Component {
             {Child}
 
 
-            <div className='ui bottom fixed menu Menu__drag'>
+            <div className='ui bottom fixed menu'>
 
-              <a className='item'>v{PACKAGE_JSON.version}</a>
+              <a className='item Menu__drag'>v{PACKAGE_JSON.version}</a>
 
               <div className='menu right'>
 
