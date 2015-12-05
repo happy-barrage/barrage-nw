@@ -58,4 +58,10 @@ void NativeWindowCocoa::SetAlwaysOnTop(bool top) {
 ```SetAlwaysOnTopHappy(bool top)```
 这个可以top在全屏时候也不影响的。不过windows和linux下貌似暂时还不会弄哦...so...😊
 
+---
+#####关于windows下
+好像windows下面的win32 api也不能搞定的，因为就算win下面SetWindowPos了，如果其他窗口也是alwaysOnTop的打开，会覆盖掉原来的，看了一下Chromium源码，貌似也是通过SetWindowPos实现的，倒是有办法就是使用上面directx什么实现，不过貌似不需要这样吧，所以在windows下有一种hack的方法：
 
+比如你先把task_bar给设置成可以隐藏的，然后打开视频全屏，然后用ctrl+tab切回到barrage程序这样就可以模拟了~~~😄
+
+---
