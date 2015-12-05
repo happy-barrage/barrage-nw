@@ -93,8 +93,6 @@ class Menu extends Component {
 
   handleQuit() {
 
-
-    gui.App.closeAllWindows();
     gui.App.quit();
   }
 
@@ -108,7 +106,7 @@ class Menu extends Component {
 
       //提交之后working 为true
       //cancel之后working 为false
-      
+
       Child = <MenuWorking handleCancel={this.handleCancel.bind(this)} channel={this.state.channel} themes={this.state.themes}/>;
     }
 
