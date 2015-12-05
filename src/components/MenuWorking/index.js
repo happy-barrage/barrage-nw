@@ -18,9 +18,9 @@ let optionsDefault = {
   'always-on-top': true,
   show: true,
   toolbar: false,
-  //kiosk: true,
+  kiosk: true,
   'visible-on-all-workspaces': true,
-  "show_in_taskbar": false,
+  'show_in_taskbar': false,
   //fullscreen: false,
   width: gui.Screen.screens[0].work_area.width, //最大工作区间的屏幕，第一个屏幕
   height: gui.Screen.screens[0].work_area.height
@@ -57,6 +57,9 @@ class MenuWorking extends Component {
     this.close();
 
     WindowDanmuku = gui.Window.open(`${SERVER_URL}/chat/${channel}?theme=${themeId}`, optionsDefault)
+
+    //WindowDanmuku.enterKioskMode();
+    WindowDanmuku.enterKioskMode();
 
 
   }

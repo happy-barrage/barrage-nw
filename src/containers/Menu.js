@@ -95,6 +95,7 @@ class Menu extends Component {
 
 
     gui.App.closeAllWindows();
+    gui.App.quit();
   }
 
 

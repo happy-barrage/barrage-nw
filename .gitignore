@@ -11,3 +11,6 @@ resource
 cache
 
 build
+
+# 自己版本的nw目录
+nw-custom
