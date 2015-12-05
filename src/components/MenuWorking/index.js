@@ -18,7 +18,6 @@ let optionsDefault = {
   'always-on-top': true,
   show: true,
   toolbar: false,
-  kiosk: true,
   'visible-on-all-workspaces': true,
   'show_in_taskbar': false,
   //fullscreen: false,
@@ -57,10 +56,6 @@ class MenuWorking extends Component {
     this.close();
 
     WindowDanmuku = gui.Window.open(`${SERVER_URL}/chat/${channel}?theme=${themeId}`, optionsDefault)
-
-    //WindowDanmuku.enterKioskMode();
-    WindowDanmuku.enterKioskMode();
-
 
   }
 
